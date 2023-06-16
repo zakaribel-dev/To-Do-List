@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  text-align: center;
+}
+
+body {
+  background-color: rgb(78, 137, 220);
+}
+
+
+.input {
+  padding: 10px;
+  font-weight: bolder;
+  display: inline-block;
+}
+
+tr,
+th,
+td {
+  width: 200px;
+}
+
+h1 {
+  color: #FF4500; 
+  font-size: 36px;
+  font-family: Arial, sans-serif; 
+  text-align: center; 
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+  margin-top: 5%;
+}
+
+tr {
+  background-color: rgb(62, 20, 81);
+  font-weight: bolder;
+}
+
+.done-row {
+  background-color: rgb(93, 85, 85) !important;
+  text-decoration: line-through rgb(25, 189, 22);
+  text-decoration-thickness: 3px;
+}
+
+input {
+  border-radius: 10px;
+}
+
+button {
+  padding: 8px;
+  font-weight: bolder;
+  border-radius: 25px;
+}
+
+.clignoter {
+  animation: clignoter 1s linear;
+}
+
+@keyframes clignoter {
+  50% {
+    opacity: 0;
+  }
+}
+
+.edit-btn,
+.done-btn {
+  width: 150px;
+  margin: 1%;
+  border-radius: 25px;
+  font-weight: lighter;
+}
+
+.edit-btn {
+  color: rgb(121, 121, 186) !important;
+}
+
+.done-btn {
+  color: rgb(0, 255, 4) !important;
+}
+
+#table-id {
+  margin-top: 5%;
+}
+
+.fade-out {
+  transition: opacity 1s ease;
+  opacity: 0;
+}
+.reload{
+  margin-top: 1%;
+}
+#msg {
+  position: fixed;
+  bottom: 58%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+header a {
+  text-decoration: none;
+  color: #0c0704;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+header a:hover {
+  text-decoration: underline;
+}
