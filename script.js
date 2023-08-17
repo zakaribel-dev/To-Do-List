@@ -1,20 +1,56 @@
-window.addEventListener("load", () => {
-  let form = document.getElementById("form-id");
+let tasks = [];
 
+let message = document.getElementById("msg");
+let id = 0;
+
+window.addEventListener("load", () => {
+  document.getElementById("reload").addEventListener("click", () => {
+    localStorage.clear();
+    location.reload();
+  });
+
+  let form = document.getElementById("form-id");
   let table = document.getElementById("table-id");
 
-
   table.style.visibility = "hidden";
-
   form.addEventListener("submit", generate);
 
   table.addEventListener("click", buttonTableClick);
+  let storedTasks = JSON.parse(localStorage.getItem("tasks"));
+  console.log(storedTasks);
 
+  storedTasks.forEach((storedTask) => {
+    tasks.push(storedTask);
+  });
+
+  if (storedTasks != null) {
+    generateLocalData(storedTasks);
+  } else {
+    alert("error");
+  }
 });
 
-let id = 0;
+function generateLocalData(storedTasks) {
+  let table = document.getElementById("table-id");
+  table.style.visibility = "visible";
 
-let message = document.getElementById("msg");
+  storedTasks.forEach((task) => {
+    let td_task = document.createElement("td");
+
+    td_task.textContent = task.content.replace(/"/, "");
+
+    let editBtn = document.createElement("td");
+    editBtn.innerHTML = `<button class='edit-btn'>Edit</button><button class='done-btn'>Done</button>`;
+
+    let tr = document.createElement("tr");
+    td_task.setAttribute("class", "task");
+    tr.setAttribute("id", ++id);
+
+    tr.appendChild(td_task);
+    tr.appendChild(editBtn);
+    table.appendChild(tr);
+  });
+}
 
 function generate(event) {
   event.preventDefault();
@@ -31,17 +67,24 @@ function generate(event) {
     td_task.textContent = task.toUpperCase();
 
     let editBtn = document.createElement("td");
-    editBtn.innerHTML =
-      `<button class='edit-btn'>Edit</button><button class='done-btn'>Done</button>`;
+    editBtn.innerHTML = `<button class='edit-btn'>Edit</button><button class='done-btn'>Done</button>`;
 
     let tr = document.createElement("tr");
-    tr.setAttribute("id", ++id);
-    td_task.setAttribute("id", id);
     td_task.setAttribute("class", "task");
+    tr.setAttribute("id", ++id);
 
     tr.appendChild(td_task);
     tr.appendChild(editBtn);
     table.appendChild(tr);
+
+    let sendRow = {
+      id: tr.id,
+      content: task.toUpperCase(),
+    };
+
+    tasks.push(sendRow);
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 
     form.reset();
   }
@@ -77,29 +120,24 @@ function displayMsg(deleteRow, editRow, nonEdit) {
 
 function buttonTableClick(event) {
   let target = event.target;
-  // DELETE 
+  // DELETE
 
   if (target.classList.contains("done-btn")) {
-    
     let btnEdit = target.parentNode.querySelector(".edit-btn");
     let btnDone = target;
 
-    
     let row = target.closest("tr");
 
     row.classList.add("clignoter");
-   
+
     setTimeout(function () {
       row.classList.remove("clignoter");
     }, 1200);
-
-
 
     row.classList.add("done-row");
 
     btnEdit.style.visibility = "hidden";
     btnDone.style.visibility = "hidden";
-
 
     let message = document.getElementById("msg");
     message.style.visibility = "visible";
@@ -121,6 +159,7 @@ function buttonTableClick(event) {
       let TaskNameCell = row.querySelector(".task");
 
       TaskNameCell.textContent = newTask.toUpperCase();
+      row.setAttribute("class", "edited");
 
       displayMsg(false, true, false);
 
@@ -132,5 +171,3 @@ function buttonTableClick(event) {
     }
   }
 }
-
-
